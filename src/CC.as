@@ -17,18 +17,38 @@ package
 		public static var VISIBLEWIDTH : Number = WINDOWWIDTH / WINDOWSCALE;
 		public static var VISIBLEHEIGHT : Number = WINDOWHEIGHT / WINDOWSCALE;
 		
-		public static function xor(a:Boolean, b:Boolean) {
+		public static var TILESIZE : int = 20;
+		
+		public static var GRAVITYAMOUNT : Number = 800;
+		
+		public static function xor(a:Boolean, b:Boolean) : Boolean {
 			return !(a && b) && (a || b);
 		}
 		
 		public static function getDistanceVector(a : FlxPoint, b:FlxPoint) : FlxPoint{
 			return new FlxPoint(b.x - a.x, b.y - a.y);
 		}
+		
+		public static function getDistanceBetweenSprites(a : FlxSprite, b : FlxSprite, useMidpoints : Boolean = false) {
+			var pointA : FlxPoint;
+			var pointB : FlxPoint;
+			
+			if(useMidpoints){
+				pointA = a.getMidpoint();
+				pointB = b.getMidpoint();
+			}
+			else {
+				pointA = new FlxPoint(a.x, a.y);
+				pointB = new FlxPoint(b.x, b.y);
+			}
+			
+			return Math.abs(FlxU.getDistance(pointA, pointB));
+		}
 
 		
 		//change a FlxPoint to a vector of length 1 with the same direction
 		public static function normalizeVector(vector : FlxPoint) : FlxPoint {
-			var returned = new FlxPoint();
+			var returned : FlxPoint = new FlxPoint();
 			var length : Number = FlxU.getDistance(new FlxPoint(0, 0), vector);
 			if(length > 0){
 				returned.x = vector.x / length;
